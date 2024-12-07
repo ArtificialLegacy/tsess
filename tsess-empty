@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Config 
+session="empty"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""] 
+then
+    # Start Session
+    tmux new-session -d -s $session
+fi
+
+# Attach
+tmux attach-session -t $session:0
