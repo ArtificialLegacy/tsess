@@ -4,7 +4,6 @@ location="$HOME/.local/scripts/tsess/"
 prefix="tsess-"
 
 # Print
-echo "# Scripts:"
 echo
 ls -a $location | grep $prefix | sed -e "s/^/- /"
 echo
