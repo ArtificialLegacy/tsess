@@ -5,6 +5,10 @@ session="imgscal"
 code_location="~/dev/imgscal/"
 data_location="~/imgscal/"
 
+wname_code="imgscal"
+wname_data="scripts"
+wname_bash="bash"
+
 # Don't recreate
 exists=$(tmux list-sessions | grep $session)
 if ["$exists" = ""]; then
@@ -12,17 +16,18 @@ if ["$exists" = ""]; then
     tmux new-session -d -s $session
 
     # Code window
-    tmux send-keys -t 0 "cd $code_location" C-m
-    tmux send-keys -t 0 "nvim ." C-m
+    tmux rename-window -t 0 $wname_code
+    tmux send-keys -t $wname_code "cd $code_location" C-m
+    tmux send-keys -t $wname_code "nvim ." C-m
 
     # Data window
-    tmux new-window -t $session:1
-    tmux send-keys -t 1 "cd $data_location" C-m
-    tmux send-keys -t 1 "nvim ." C-m
+    tmux new-window -t $session:1 -n $wname_data
+    tmux send-keys -t $wname_data "cd $data_location" C-m
+    tmux send-keys -t $wname_data "nvim ." C-m
 
     # Bash window
-    tmux new-window -t $session:2
-    tmux send-keys -t 2 "cd $code_location" C-m
+    tmux new-window -t $session:2 -n $wname_bash
+    tmux send-keys -t $wname_bash "cd $code_location" C-m
 fi
 
 # Attach

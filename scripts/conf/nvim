@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Config
+session="nvim_conf"
+location="~/.config/nvim/"
+
+wname="nvim"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""]; then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # nvim directory
+    tmux rename-window -t $wname
+    tmux send-keys -t $wname "cd $location" C-m
+    tmux send-keys -t $wname "nvim ." C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0

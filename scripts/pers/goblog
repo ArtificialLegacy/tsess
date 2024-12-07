@@ -7,6 +7,10 @@ example_location="~/dev/blog/"
 dist_location="~/dev/blog/dist/"
 port="8080"
 
+wname_code="goblog"
+wname_example="example"
+wname_http="http"
+
 # Don't recreate
 exists=$(tmux list-sessions | grep $session)
 if ["$exists" = ""]; then
@@ -14,18 +18,19 @@ if ["$exists" = ""]; then
     tmux new-session -d -s $session
 
     # Code window
-    tmux send-keys -t 0 "cd $code_location" C-m
-    tmux send-keys -t 0 "nvim ." C-m
+    tmux rename-window -t 0 $wname_code
+    tmux send-keys -t $wname_code "cd $code_location" C-m
+    tmux send-keys -t $wname_code "nvim ." C-m
 
     # Example window
-    tmux new-window -t $session:1
-    tmux send-keys -t 1 "cd $example_location" C-m
-    tmux send-keys -t 1 "nvim ." C-m
+    tmux new-window -t $session:1 -n $wname_example
+    tmux send-keys -t $wname_example "cd $example_location" C-m
+    tmux send-keys -t $wname_example "nvim ." C-m
 
     # HTTP server window
-    tmux new-window -t $session:2
-    tmux send-keys -t 2 "cd $dist_location" C-m
-    tmux send-keys -t 2 "python3 -m http.server $port" C-m
+    tmux new-window -t $session:2 -n $wname_http
+    tmux send-keys -t $wname_http "cd $dist_location" C-m
+    tmux send-keys -t $wname_http "python3 -m http.server $port" C-m
 fi
 
 # Attach
