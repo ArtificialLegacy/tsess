@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Config 
+# Config
 session="aoc2024"
 location="~/dev/aoc_2024/"
 
 # Don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""] 
-then
+if ["$exists" = ""]; then
     # Start Session
     tmux new-session -d -s $session
 

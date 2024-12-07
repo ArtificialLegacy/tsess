@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Config 
+# Config
 session="goblog"
 code_location="~/dev/go-blog/"
 example_location="~/dev/blog/"
@@ -9,8 +9,7 @@ port="8080"
 
 # Don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""] 
-then
+if ["$exists" = ""]; then
     # Start Session
     tmux new-session -d -s $session
 

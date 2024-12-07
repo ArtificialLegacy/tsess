@@ -1,14 +1,13 @@
 #!/bin/bash
 
-# Config 
+# Config
 session="imgscal"
 code_location="~/dev/imgscal/"
 data_location="~/imgscal/"
 
 # Don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""] 
-then
+if ["$exists" = ""]; then
     # Start Session
     tmux new-session -d -s $session
 
