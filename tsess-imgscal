@@ -20,6 +20,10 @@ then
     tmux new-window -t $session:1
     tmux send-keys -t 1 "cd $data_location" C-m
     tmux send-keys -t 1 "nvim ." C-m
+
+    # Bash window
+    tmux new-window -t $session:2
+    tmux send-keys -t 2 "cd $code_location" C-m
 fi
 
 # Attach
