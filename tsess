@@ -1,0 +1,7 @@
+
+# Config
+location="$HOME/.local/scripts"
+prefix="tsess-"
+
+# Print
+ls -a $location | grep $prefix 

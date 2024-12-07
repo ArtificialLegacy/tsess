@@ -1,0 +1,25 @@
+
+# Config 
+session="imgscal"
+code_location="~/dev/imgscal/"
+data_location="~/imgscal/"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""] 
+then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # Code window
+    tmux send-keys -t 0 "cd $code_location" C-m
+    tmux send-keys -t 0 "nvim ." C-m
+
+    # Data window
+    tmux new-window -t $session:1
+    tmux send-keys -t 1 "cd $data_location" C-m
+    tmux send-keys -t 1 "nvim ." C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0

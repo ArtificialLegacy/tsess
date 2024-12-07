@@ -1,0 +1,24 @@
+
+# Config 
+session="aoc2024"
+location="~/dev/aoc_2024/"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""] 
+then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # Code window
+    tmux send-keys -t 0 "cd $location" C-m
+    tmux send-keys -t 0 "nvim ." C-m
+
+    # Terminal window
+    tmux new-window -t $session:1
+    tmux send-keys -t 1 "cd $location" C-m
+    tmux send-keys -t 1 "source ./venv/bin/activate" C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0

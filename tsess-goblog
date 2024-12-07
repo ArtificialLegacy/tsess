@@ -1,0 +1,32 @@
+
+# Config 
+session="goblog"
+code_location="~/dev/go-blog/"
+example_location="~/dev/blog/"
+dist_location="~/dev/blog/dist/"
+port="8080"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""] 
+then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # Code window
+    tmux send-keys -t 0 "cd $code_location" C-m
+    tmux send-keys -t 0 "nvim ." C-m
+
+    # Example window
+    tmux new-window -t $session:1
+    tmux send-keys -t 1 "cd $example_location" C-m
+    tmux send-keys -t 1 "nvim ." C-m
+
+    # HTTP server window
+    tmux new-window -t $session:2
+    tmux send-keys -t 2 "cd $dist_location" C-m
+    tmux send-keys -t 2 "python3 -m http.server $port" C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0
