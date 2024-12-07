@@ -1,6 +1,6 @@
 
 # Config
-location="$HOME/.local/scripts"
+location="$HOME/.local/scripts/tsess/"
 prefix="tsess-"
 
 # Print
