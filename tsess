@@ -1,13 +1,17 @@
 #!/bin/bash
 
-bashdir="$(dirname "${BASH_SOURCE[0]}")"
-location="${bashdir}/scripts/"
+bashloc="${BASH_SOURCE[0]}"
+if [ -L "$bashloc" ]; then
+    bashloc="$(readlink -f "$bashloc")"
+fi
+
+location="$(dirname "$bashloc")/scripts/"
 
 function search() {
     find $location -type f | sed -e "s|$location|- |"
 }
 
-if [[ -z "$1" ]]; then
+if [ -z "$1" ]; then
     # Print list of scripts
     echo
     search
@@ -20,7 +24,7 @@ else
 
         # Search for similar script names
         close="$(search | grep $1 --color=always)"
-        if [[ ! -z "$close" ]]; then
+        if [ ! -z "$close" ]; then
             echo
             echo "Some possible scripts were found:"
             echo "$close"
