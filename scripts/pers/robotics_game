@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Config
+session="robotics_games"
+location="~/dev/robotics_game/"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""]; then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # Go to project directory.
+    tmux send-keys -t 0 "cd $location" C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0
