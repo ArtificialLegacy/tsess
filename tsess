@@ -7,27 +7,28 @@ fi
 
 location="$(dirname "$bashloc")/scripts/"
 
-function search() {
-    find $location -type f | sed -e "s|$location|- |"
-}
+RED='\033[31m'
+NC='\033[0m'
+BOLD='\033[1m'
 
 if [ -z "$1" ]; then
-    # Print list of scripts
-    echo
-    search
+    # fzf selection menu
+    result="$(find $location -type f | sed -e "s|$location||" | fzf)"
+    exec "$location$result"
 else
-    # Find provided script to run
     if [ -f "$location$1" ]; then
         exec "$location$1"
     else
-        echo -e "Script: \e[1;31m$1\e[0m not found!"
+        # filter scripts using argument
+        list="$(find $location -type f | sed -e "s|$location||" | grep $1)"
 
-        # Search for similar script names
-        close="$(search | grep $1 --color=always)"
-        if [ ! -z "$close" ]; then
-            echo
-            echo "Some possible scripts were found:"
-            echo "$close"
+        if [ -z "$list" ]; then
+            echo -e "$RED$BOLD!$NC tsess script not found: $RED$BOLD$1$NC"
+            exit 1
+        else
+            # fzf selection menu on filtered options
+            result=$(echo "$list" | fzf)
+            exec "$location$result"
         fi
     fi
 fi

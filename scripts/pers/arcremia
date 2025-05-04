@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Config
+session="arcremia"
+code_location="~/dev/arcremia/"
+tools_location="~/dev/arcremia/tools/animation_generator/"
+design_location="~/dev/arcremia/design/"
+
+wname_code="gdscript"
+wname_tools="tools"
+wname_design="design"
+
+# Don't recreate
+exists=$(tmux list-sessions | grep $session)
+if ["$exists" = ""]; then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # GDScript window
+    tmux rename-window -t 0 $wname_code
+    tmux send-keys -t $wname_code "cd $code_location" C-m
+    tmux send-keys -t $wname_code "nvim ." C-m
+
+    # Tool window
+    tmux new-window -t $session:1 -n $wname_tools
+    tmux send-keys -t $wname_tools "cd $tools_location" C-m
+    tmux send-keys -t $wname_tools "nvim ." C-m
+
+    # Design window
+    tmux new-window -t $session:2 -n $wname_design
+    tmux send-keys -t $wname_design "cd $design_location" C-m
+    tmux send-keys -t $wname_design "nvim ." C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0
