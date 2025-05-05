@@ -14,7 +14,11 @@ BOLD='\033[1m'
 if [ -z "$1" ]; then
     # fzf selection menu
     result="$(find $location -type f | sed -e "s|$location||" | fzf)"
-    exec "$location$result"
+    if [ -f "$location$result" ]; then
+        exec "$location$result"
+    else
+        exit 0
+    fi
 else
     if [ -f "$location$1" ]; then
         exec "$location$1"
@@ -24,11 +28,15 @@ else
 
         if [ -z "$list" ]; then
             echo -e "$RED$BOLD!$NC tsess script not found: $RED$BOLD$1$NC"
-            exit 1
+            exit 2
         else
             # fzf selection menu on filtered options
             result=$(echo "$list" | fzf)
-            exec "$location$result"
+            if [ -f "$location$result" ]; then
+                exec "$location$result"
+            else
+                exit 0
+            fi
         fi
     fi
 fi
