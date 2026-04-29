@@ -2,32 +2,32 @@
 
 # Config
 session="goblog"
-code_location="~/dev/go-blog/"
-example_location="~/dev/blog/"
-dist_location="~/dev/blog/dist/"
+code_location="$HOME/dev/go-blog/"
+example_location="$HOME/dev/blog/"
+dist_location="$HOME/dev/blog/dist/"
 port="8080"
 
 wname_code="goblog"
 wname_example="example"
 wname_http="http"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 
-    # Code window
+    # Code Window
     tmux rename-window -t 0 $wname_code
     tmux send-keys -t $wname_code "cd $code_location" C-m
     tmux send-keys -t $wname_code "nvim ." C-m
 
-    # Example window
+    # Example Window
     tmux new-window -t $session:1 -n $wname_example
     tmux send-keys -t $wname_example "cd $example_location" C-m
     tmux send-keys -t $wname_example "nvim ." C-m
 
-    # HTTP server window
+    # HTTP Server Window
     tmux new-window -t $session:2 -n $wname_http
     tmux send-keys -t $wname_http "cd $dist_location" C-m
     tmux send-keys -t $wname_http "python3 -m http.server $port" C-m

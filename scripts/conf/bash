@@ -2,18 +2,18 @@
 
 # Config
 session="bashrc_conf"
-location="~"
+location="$HOME"
 conf=".bashrc"
 
 wname="bashrc"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 
-    # nvim directory
+    # Nvim Window
     tmux rename-window -t $wname
     tmux send-keys -t $wname "cd $location" C-m
     tmux send-keys -t $wname "nvim $conf && source $conf" C-m

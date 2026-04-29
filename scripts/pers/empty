@@ -2,15 +2,15 @@
 
 # Config
 session="pers_empty"
-location="~/dev/"
+location="$HOME/dev/"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 
-    # Go to personal dev directory
+    # Go to personal dev directory.
     tmux send-keys -t 0 "cd $location" C-m
 fi
 

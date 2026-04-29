@@ -3,9 +3,9 @@
 # Config
 session="empty"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 fi

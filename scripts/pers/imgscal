@@ -2,30 +2,30 @@
 
 # Config
 session="imgscal"
-code_location="~/dev/imgscal/"
-data_location="~/imgscal/"
+code_location="$HOME/dev/imgscal/"
+data_location="$HOME/imgscal/"
 
 wname_code="imgscal"
 wname_data="scripts"
 wname_bash="bash"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 
-    # Code window
+    # Code Window
     tmux rename-window -t 0 $wname_code
     tmux send-keys -t $wname_code "cd $code_location" C-m
     tmux send-keys -t $wname_code "nvim ." C-m
 
-    # Data window
+    # Data Window
     tmux new-window -t $session:1 -n $wname_data
     tmux send-keys -t $wname_data "cd $data_location" C-m
     tmux send-keys -t $wname_data "nvim ." C-m
 
-    # Bash window
+    # Bash Window
     tmux new-window -t $session:2 -n $wname_bash
     tmux send-keys -t $wname_bash "cd $code_location" C-m
 fi

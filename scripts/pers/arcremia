@@ -2,12 +2,12 @@
 
 # Config
 session="arcremia"
-code_location="~/dev/arcremia/"
-tools_location="~/dev/arcremia/tools/animation_generator/"
-design_location="~/dev/arcremia/design/"
-imgscal_location="~/dev/arcremia/tools/imgscal/"
+code_location="$HOME/dev/arcremia/"
+tools_location="$HOME/dev/arcremia/tools/animation_generator/"
+design_location="$HOME/dev/arcremia/design/"
+imgscal_location="$HOME/dev/arcremia/tools/imgscal/"
 
-imgscal_config="~/dev/arcremia/tools/imgscal/config.json"
+imgscal_config="$HOME/dev/arcremia/tools/imgscal/config.json"
 
 wname_code="gdscript"
 wname_tools="tools"
@@ -15,33 +15,33 @@ wname_design="design"
 wname_imgscal="imgscal"
 wname_terminal="terminal"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 
-    # GDScript window
+    # GDScript Window
     tmux rename-window -t 0 $wname_code
     tmux send-keys -t $wname_code "cd $code_location" C-m
     tmux send-keys -t $wname_code "nvim ." C-m
 
-    # Tool window
+    # Tool Window
     tmux new-window -t $session:1 -n $wname_tools
     tmux send-keys -t $wname_tools "cd $tools_location" C-m
     tmux send-keys -t $wname_tools "nvim ." C-m
 
-    # Design window
+    # Design Window
     tmux new-window -t $session:2 -n $wname_design
     tmux send-keys -t $wname_design "cd $design_location" C-m
     tmux send-keys -t $wname_design "nvim ." C-m
 
-    # Imgscal window
+    # Imgscal Window
     tmux new-window -t $session:3 -n $wname_imgscal
     tmux send-keys -t $wname_imgscal "cd $imgscal_location" C-m
     tmux send-keys -t $wname_imgscal "export IMGSCAL_CONFIG=\"$imgscal_config\"" C-m
 
-    # Terminal running window
+    # Terminal Running Window
     tmux new-window -t $session:4 -n $wname_terminal
     tmux send-keys -t $wname_terminal "cd $code_location" C-m
     tmux send-keys -t $wname_terminal "export IMGSCAL_CONFIG=\"$imgscal_config\"" C-m

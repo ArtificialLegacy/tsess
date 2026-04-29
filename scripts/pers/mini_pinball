@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Config
+session="mini_pinball"
+location="$HOME/dev/mini_pinball/"
+
+openscad_location="$HOME/dev/mini_pinball/models/openscad/"
+
+wname_openscad="openscad"
+wname_terminal="terminal"
+
+# don't recreate
+exists=$(tmux list-sessions | grep $session)
+if [ "$exists" = "" ]; then
+    # Start Session
+    tmux new-session -d -s $session
+
+    # OpenScad Window
+    tmux rename-window -t 0 $wname_openscad
+    tmux send-keys -t $wname_openscad "cd $openscad_location" C-m
+    tmux send-keys -t $wname_openscad "nvim ." C-m
+
+    # Terminal Window
+    tmux new-window -t $session:1 -n $wname_terminal
+    tmux send-keys -t $wname_terminal "cd $location" C-m
+fi
+
+# Attach
+tmux attach-session -t $session:0

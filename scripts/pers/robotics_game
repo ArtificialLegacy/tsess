@@ -2,11 +2,11 @@
 
 # Config
 session="robotics_games"
-location="~/dev/robotics_game/"
+location="$HOME/dev/robotics_game/"
 
-# Don't recreate
+# don't recreate
 exists=$(tmux list-sessions | grep $session)
-if ["$exists" = ""]; then
+if [ "$exists" = "" ]; then
     # Start Session
     tmux new-session -d -s $session
 
